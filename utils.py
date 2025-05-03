@@ -21,11 +21,19 @@ def openBrowser():
 # driver = openBrowser()
 
 def inputDetails(driver, xpath, data):
+    #driver.find_element(By.XPATH, xpath).send_keys(data)
+    WebDriverWait(driver, 20).until(
+        EC.presence_of_element_located((By.XPATH, xpath))
+    )
     driver.find_element(By.XPATH, xpath).send_keys(data)
     print(data + " written...")
 
 
 def clickElement(driver, xpath):
+    #driver.find_element(By.XPATH, xpath).click()
+    WebDriverWait(driver, 20).until(
+        EC.presence_of_element_located((By.XPATH, xpath))
+    )
     driver.find_element(By.XPATH, xpath).click()
     print("Element clicked...")
 

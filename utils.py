@@ -10,8 +10,11 @@ from config.configreader import *
 def openBrowser():
     option = Options()
     option.add_argument('--headless')
-    # driver = webdriver.Chrome(options=option)
-    driver = webdriver.Chrome()
+    option.add_argument("--disable-gpu")
+    option.add_argument("--no-sandbox")
+    option.add_argument("--disable-dev-shm-usage")  # Prevent memory issues
+    driver = webdriver.Chrome(options=option)
+    # driver = webdriver.Chrome()
     return driver
 
 

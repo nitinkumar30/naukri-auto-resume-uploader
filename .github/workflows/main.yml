@@ -42,10 +42,3 @@ jobs:
         env:
           NAUKRIUSERNAME: ${{ secrets.NAUKRIUSERNAME }}
           NAUKRIPASSWORD: ${{ secrets.NAUKRIPASSWORD }}
-
-      - name: Upload debug screenshot if failure occurs
-        if: failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: selenium-debug-screenshot
-          path: timeout_error.png

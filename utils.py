@@ -22,7 +22,8 @@ def openBrowser():
     # Use default installed chromedriver
     service = Service("/usr/bin/chromedriver")  # GitHub Actions Ubuntu path
 
-    driver = webdriver.Chrome(service=service, options=options)
+    #driver = webdriver.Chrome(service=service, options=options)
+    driver = webdriver.Chrome()
     return driver
 
 

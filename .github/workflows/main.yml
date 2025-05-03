@@ -1,0 +1,18 @@
+name: Upload resume on naukri profile
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Print masked username (for example purposes only)
+        run: echo "Username is ${{ secrets.NAUKRIUSERNAME }}"
+
+      - name: Run script with secrets
+        run: |
+          python mainFile.py
+        env:
+          NAUKRIUSERNAME: ${{ secrets.NAUKRIUSERNAME }}
+          NAUKRIPASSWORD: ${{ secrets.NAUKRIPASSWORD }}

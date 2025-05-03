@@ -6,6 +6,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -13,19 +14,38 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'  # or whichever version your script uses
+          python-version: '3.10'
 
-      - name: Install dependencies
+      - name: Install system dependencies for Selenium
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable chromium-chromedriver
+          which google-chrome
+          which chromedriver
+
+      - name: Upgrade pip and install Python dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Print masked username (for debug)
+      - name: Print masked username (for debug only)
         run: echo "Username is ${{ secrets.NAUKRIUSERNAME }}"
 
-      - name: Run script with secrets
+      - name: Kill leftover Chrome processes (optional, prevents profile conflict)
+        run: |
+          pkill chrome || true
+          pkill chromedriver || true
+
+      - name: Run Python script with secrets
         run: |
           python mainFile.py
         env:
           NAUKRIUSERNAME: ${{ secrets.NAUKRIUSERNAME }}
           NAUKRIPASSWORD: ${{ secrets.NAUKRIPASSWORD }}
+
+      - name: Upload debug screenshot if failure occurs
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: selenium-debug-screenshot
+          path: timeout_error.png

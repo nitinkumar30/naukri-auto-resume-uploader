@@ -1,5 +1,8 @@
 name: Upload resume on naukri profile
 
+on:
+  workflow_dispatch:  # Allows you to manually trigger the workflow
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -7,7 +10,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Print masked username (for example purposes only)
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'  # or whichever version your script uses
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Print masked username (for debug)
         run: echo "Username is ${{ secrets.NAUKRIUSERNAME }}"
 
       - name: Run script with secrets

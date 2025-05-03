@@ -11,13 +11,17 @@ from config.configreader import *
 
 
 def openBrowser():
-    option = Options()
-    option.add_argument('--headless')
-    option.add_argument("--disable-gpu")
-    option.add_argument("--no-sandbox")
-    option.add_argument("--disable-dev-shm-usage")  # Prevent memory issues
-    driver = webdriver.Chrome(options=option)
-    # driver = webdriver.Chrome()
+    options = Options()
+    options.add_argument("--headless")  # Run in headless mode (no UI)
+    options.add_argument("--no-sandbox")  # Required for GitHub Actions/Linux
+    options.add_argument("--disable-dev-shm-usage")  # Prevents memory issues
+    options.add_argument("--disable-gpu")  # Optional: GPU not needed in CI
+    options.add_argument("--window-size=1920,1080")  # Ensure full page visibility
+
+    # Use default installed chromedriver
+    service = Service("/usr/bin/chromedriver")  # GitHub Actions Ubuntu path
+
+    driver = webdriver.Chrome(service=service, options=options)
     return driver
 
 
